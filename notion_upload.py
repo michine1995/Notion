@@ -23,13 +23,17 @@ def create_page(row):
             "CPM": {"number": float(row[3])},
             "CTR": {"number": float(row[4])},
             "CPC": {"number": float(row[5])},
-            "Impressions": {"number": int(row[6])},
-            "Link Clicks": {"number": int(row[7])},
-            "Conversions": {"number": int(row[8])}
+            "Impressions": {"number": int(float(row[6]))},
+            "Link Clicks": {"number": int(float(row[7]))},
+            "Conversions": {"number": int(float(row[8]))}
         }
     }
 
 def upload_csv_to_notion():
+    if not os.path.exists(CSV_FILE_PATH):
+        print(f"❌ ファイルが見つかりません: {CSV_FILE_PATH}")
+        return
+
     with open(CSV_FILE_PATH, newline='') as csvfile:
         reader = csv.reader(csvfile)
         next(reader)  # skip header
