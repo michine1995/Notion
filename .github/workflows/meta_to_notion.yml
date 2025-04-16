@@ -1,0 +1,27 @@
+name: Notionデータベースへ自動アップロード
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # 毎時0分に実行
+  workflow_dispatch:
+
+jobs:
+  upload-to-notion:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Pythonセットアップ
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: ライブラリインストール
+        run: |
+          pip install requests
+
+      - name: notion_upload.py 実行
+        run: python notion_upload.py
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DATABASE_ID: ${{ secrets.NOTION_DATABASE_ID }}
